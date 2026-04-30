@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
-import { formatPrice, getDiscountPercent } from '../../utils/helpers';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { formatPrice, getDiscountPercent } from "../../utils/helpers";
 
 const StarRating = ({ rating }) => (
   <div className="flex items-center gap-0.5">
     {Array.from({ length: 5 }).map((_, i) => (
       <svg
         key={i}
-        className={`w-3 h-3 ${i < Math.round(rating) ? 'text-saree-gold' : 'text-stone-300'}`}
+        className={`w-3 h-3 ${
+          i < Math.round(rating) ? "text-saree-gold" : "text-stone-300"
+        }`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -17,76 +20,116 @@ const StarRating = ({ rating }) => (
 );
 
 const ProductCard = ({ product }) => {
+  const [wishlisted, setWishlisted] = useState(false);
+
   const discount = getDiscountPercent(product.price, product.comparePrice);
-  const image = product.images?.[0] || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600';
+
+  const images = product.images || [];
+  const primary = images[0];
+  const secondary = images[1] || images[0];
 
   return (
-    <Link to={`/products/${product.slug || product._id}`} className="group block">
-      <div className="card-hover">
-        {/* Image Container */}
-        <div className="relative overflow-hidden aspect-[3/4] bg-stone-100">
+    <div className="group h-full flex flex-col">
+      {/* IMAGE BLOCK */}
+      <div className="relative overflow-hidden aspect-[3/4] bg-stone-100">
+        {/* Clickable Image Area */}
+        <Link to={`/products/${product.slug || product._id}`}>
+          {/* Primary Image */}
           <img
-            src={image}
+            src={primary}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
 
-          {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
-            {discount > 0 && (
-              <span className="badge bg-saree-burgundy text-white">
-                {discount}% Off
-              </span>
-            )}
-            {product.isFeatured && (
-              <span className="badge bg-saree-gold text-white">
-                Featured
-              </span>
-            )}
+          {/* Secondary Image (hover) */}
+          <img
+            src={secondary}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          />
+        </Link>
+
+        {/* Wishlist */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setWishlisted(!wishlisted);
+          }}
+          className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-full p-2 shadow hover:scale-110 transition"
+        >
+          <svg
+            className={`w-4 h-4 ${
+              wishlisted ? "text-red-500 fill-red-500" : "text-stone-600"
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeWidth={1.8}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 
+              7.78l1.06 1.06L12 21.23l7.78-7.78 
+              1.06-1.06a5.5 5.5 0 000-7.78z"
+            />
+          </svg>
+        </button>
+
+        {/* Discount Badge */}
+        {discount > 0 && (
+          <div className="absolute top-3 left-3 bg-saree-burgundy text-white text-xs px-2 py-1">
+            {discount}% OFF
           </div>
+        )}
 
-          {/* Quick action overlay */}
-          <div className="absolute inset-0 bg-saree-deep/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-            <button className="btn-primary text-xs py-2 px-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-              View Details
-            </button>
-          </div>
-        </div>
-
-        {/* Info */}
-        <div className="pt-4 pb-2">
-          {product.category?.name && (
-            <p className="font-sans text-xs tracking-widest uppercase text-saree-gold mb-1">
-              {product.category.name}
-            </p>
-          )}
-          <h3 className="font-display text-lg text-saree-deep leading-snug group-hover:text-saree-burgundy transition-colors duration-200 line-clamp-2">
-            {product.name}
-          </h3>
-
-          {product.fabric && (
-            <p className="font-sans text-xs text-stone-400 mt-1">{product.fabric}</p>
-          )}
-
-          <div className="flex items-center justify-between mt-3">
-            <div className="flex items-center gap-2">
-              <span className="price-tag text-base">{formatPrice(product.price)}</span>
-              {product.comparePrice > product.price && (
-                <span className="original-price">{formatPrice(product.comparePrice)}</span>
-              )}
-            </div>
-
-            {product.numReviews > 0 && (
-              <div className="flex items-center gap-1">
-                <StarRating rating={product.rating} />
-                <span className="font-sans text-xs text-stone-400">({product.numReviews})</span>
-              </div>
-            )}
-          </div>
+        {/* Quick Add */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition duration-300">
+          <button className="w-full text-xs font-medium tracking-wide bg-saree-deep text-white py-2">
+            QUICK ADD
+          </button>
         </div>
       </div>
-    </Link>
+
+      {/* INFO */}
+      <div className="pt-3 pb-2 flex flex-col flex-1">
+        {/* Category */}
+        {product.category?.name && (
+          <p className="text-xs uppercase tracking-widest text-saree-gold mb-1">
+            {product.category.name}
+          </p>
+        )}
+
+        {/* Title */}
+        <h3 className="text-sm font-medium text-saree-deep line-clamp-2 min-h-[2.8rem]">
+          {product.name}
+        </h3>
+
+        {/* Price */}
+        <div className="mt-2 flex items-center gap-2">
+          <span className="font-semibold text-saree-burgundy">
+            {formatPrice(product.price)}
+          </span>
+          {product.comparePrice > product.price && (
+            <span className="text-xs line-through text-stone-400">
+              {formatPrice(product.comparePrice)}
+            </span>
+          )}
+        </div>
+
+        {/* Reviews */}
+        <div className="mt-1 h-4 flex items-center">
+          {product.numReviews > 0 && (
+            <div className="flex items-center gap-1">
+              <StarRating rating={product.rating} />
+              <span className="text-xs text-stone-400">
+                ({product.numReviews})
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
