@@ -16,7 +16,7 @@ const HeritageBanner = () => {
           </div>
 
           {/* Content */}
-          <div className="bg-saree-silk flex items-center p-10 md:p-16">
+          <div className="bg-saree-silk flex items-center p-10 md:p-12 lg:p-16">
             <div>
               <p className="font-serif text-sm italic text-saree-gold mb-4 tracking-wide">
                 Est. 2020 · Hyderabad

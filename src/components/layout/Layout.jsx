@@ -3,14 +3,13 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col w-full max-w-[100vw]">  {/* ← ADD w-full max-w-[100vw] */}
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 min-w-0">  {/* ← ADD min-w-0 */}
         {children}
       </main>
       <Footer />
     </div>
   );
 };
-
 export default Layout;
