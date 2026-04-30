@@ -93,11 +93,11 @@ const CategoriesSection = () => {
         {loading ? (
           <LoadingSpinner size="lg" className="py-20" />
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3 md:gap-4">
             {categories.map((cat, i) => (
               <div
                 key={cat._id}
-                className="animate-fade-in"
+                className="min-w-0 animate-fade-in" // ← ADD min-w-0
                 style={{ animationDelay: `${i * 80}ms` }}
               >
                 <CategoryCard category={cat} />

@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 
 const HeroBanner = () => {
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center overflow-hidden">
+    // ✅ FIXED: Use svh for mobile viewport height (avoids browser-chrome overflow)
+    <section className="relative h-svh min-h-[600px] max-h-[900px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full overflow-hidden">
         <img
