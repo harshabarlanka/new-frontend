@@ -1,28 +1,28 @@
-import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const from = location.state?.from || "/";
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    setError('');
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const user = await login(form.email, form.password);
-      navigate(user.role === 'admin' ? '/admin' : from, { replace: true });
+      navigate(user.role === "admin" ? "/admin" : from, { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -36,10 +36,16 @@ const LoginPage = () => {
         {/* Brand header */}
         <div className="text-center mb-10">
           <Link to="/" className="inline-block">
-            <span className="font-display text-4xl text-saree-deep tracking-wide">Aavaran</span>
-            <p className="font-serif text-xs tracking-[0.25em] italic text-saree-gold mt-1">premium sarees</p>
+            <span className="font-display text-4xl text-saree-deep tracking-wide">
+              SweG
+            </span>
+            <p className="font-serif text-xs tracking-[0.25em] italic text-saree-gold mt-1">
+              premium sarees
+            </p>
           </Link>
-          <h1 className="mt-8 font-display text-2xl text-saree-deep">Welcome Back</h1>
+          <h1 className="mt-8 font-display text-2xl text-saree-deep">
+            Welcome Back
+          </h1>
           <p className="mt-1 text-stone-500 text-sm">Sign in to your account</p>
         </div>
 
@@ -89,20 +95,40 @@ const LoginPage = () => {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Signing in…
                 </span>
-              ) : 'Sign In'}
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
           <div className="mt-6 pt-6 border-t border-stone-100 text-center">
             <p className="text-sm text-stone-500">
-              Don't have an account?{' '}
-              <Link to="/register" className="text-saree-gold font-medium hover:underline">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="text-saree-gold font-medium hover:underline"
+              >
                 Create one
               </Link>
             </p>

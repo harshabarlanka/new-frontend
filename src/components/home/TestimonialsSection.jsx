@@ -1,35 +1,35 @@
 const testimonials = [
   {
     id: 1,
-    name: 'Priya Krishnamurthy',
-    location: 'Chennai',
-    text: 'I wore the Kanjeevaram from Aavaran at my sister\'s wedding and received compliments all evening. The quality is exceptional — you can feel the authenticity in every thread.',
+    name: "Priya Krishnamurthy",
+    location: "Chennai",
+    text: "I wore the Kanjeevaram from SweG at my sister's wedding and received compliments all evening. The quality is exceptional — you can feel the authenticity in every thread.",
     rating: 5,
-    saree: 'Royal Crimson Kanjeevaram',
+    saree: "Royal Crimson Kanjeevaram",
   },
   {
     id: 2,
-    name: 'Anjali Mehta',
-    location: 'Mumbai',
-    text: 'The Banarasi silk arrived beautifully packaged. The zari work is breathtaking and the silk has that rich, heavy feel you only get with authentic handloom. Will definitely order again.',
+    name: "Anjali Mehta",
+    location: "Mumbai",
+    text: "The Banarasi silk arrived beautifully packaged. The zari work is breathtaking and the silk has that rich, heavy feel you only get with authentic handloom. Will definitely order again.",
     rating: 5,
-    saree: 'Midnight Blue Banarasi Brocade',
+    saree: "Midnight Blue Banarasi Brocade",
   },
   {
     id: 3,
-    name: 'Sudha Rao',
-    location: 'Hyderabad',
-    text: 'As someone who grew up in Telangana, I can vouch for the authenticity of their Pochampally ikat. The patterns are crisp and the colors don\'t bleed even after washing.',
+    name: "Sudha Rao",
+    location: "Hyderabad",
+    text: "As someone who grew up in Telangana, I can vouch for the authenticity of their Pochampally ikat. The patterns are crisp and the colors don't bleed even after washing.",
     rating: 5,
-    saree: 'Turquoise Pochampally Ikat',
+    saree: "Turquoise Pochampally Ikat",
   },
   {
     id: 4,
-    name: 'Kavita Nair',
-    location: 'Kochi',
-    text: 'Ordered the Uppada silk for my anniversary dinner. It\'s incredibly lightweight yet looks so grand. My husband said I looked like a queen. That\'s the magic of a good saree!',
+    name: "Kavita Nair",
+    location: "Kochi",
+    text: "Ordered the Uppada silk for my anniversary dinner. It's incredibly lightweight yet looks so grand. My husband said I looked like a queen. That's the magic of a good saree!",
     rating: 5,
-    saree: 'Gold Uppada Jamdani Silk',
+    saree: "Gold Uppada Jamdani Silk",
   },
 ];
 
@@ -45,7 +45,9 @@ const TestimonialsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-14">
-          <p className="font-serif text-sm italic text-saree-gold mb-3 tracking-wide">Real Stories</p>
+          <p className="font-serif text-sm italic text-saree-gold mb-3 tracking-wide">
+            Real Stories
+          </p>
           <h2 className="font-display text-4xl md:text-5xl text-white font-normal mb-4">
             Loved by Women Across India
           </h2>
@@ -62,7 +64,9 @@ const TestimonialsSection = () => {
             >
               {/* Stars */}
               <div className="flex gap-1 mb-4">
-                {Array.from({ length: t.rating }).map((_, j) => <StarFill key={j} />)}
+                {Array.from({ length: t.rating }).map((_, j) => (
+                  <StarFill key={j} />
+                ))}
               </div>
 
               {/* Quote */}
@@ -75,9 +79,15 @@ const TestimonialsSection = () => {
 
               {/* Customer */}
               <div>
-                <p className="font-sans font-medium text-sm text-white">{t.name}</p>
-                <p className="font-sans text-xs text-stone-400 mt-0.5">{t.location}</p>
-                <p className="font-serif text-xs italic text-saree-gold mt-2">{t.saree}</p>
+                <p className="font-sans font-medium text-sm text-white">
+                  {t.name}
+                </p>
+                <p className="font-sans text-xs text-stone-400 mt-0.5">
+                  {t.location}
+                </p>
+                <p className="font-serif text-xs italic text-saree-gold mt-2">
+                  {t.saree}
+                </p>
               </div>
             </div>
           ))}
@@ -86,14 +96,22 @@ const TestimonialsSection = () => {
         {/* Trust indicators */}
         <div className="grid grid-cols-3 gap-8 mt-16 pt-16 border-t border-white/10">
           {[
-            { icon: '🧵', label: 'Handwoven', desc: 'By master artisans' },
-            { icon: '✓', label: 'Authentic', desc: 'GI tagged fabrics' },
-            { icon: '🚚', label: 'Free Shipping', desc: 'On orders above ₹5000' },
+            { icon: "🧵", label: "Handwoven", desc: "By master artisans" },
+            { icon: "✓", label: "Authentic", desc: "GI tagged fabrics" },
+            {
+              icon: "🚚",
+              label: "Free Shipping",
+              desc: "On orders above ₹5000",
+            },
           ].map((item) => (
             <div key={item.label} className="text-center">
               <div className="text-2xl mb-2">{item.icon}</div>
-              <p className="font-sans text-sm font-medium text-white">{item.label}</p>
-              <p className="font-sans text-xs text-stone-400 mt-1">{item.desc}</p>
+              <p className="font-sans text-sm font-medium text-white">
+                {item.label}
+              </p>
+              <p className="font-sans text-xs text-stone-400 mt-1">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

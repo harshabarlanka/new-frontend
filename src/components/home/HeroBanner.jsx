@@ -36,9 +36,9 @@ const HeroBanner = () => {
             <span className="italic text-saree-gold">in Tradition</span>
           </h1>
 
-          <p className="font-sans text-base text-white/75 leading-relaxed mb-10 max-w-md">
+          {/* <p className="font-sans text-base text-white/75 leading-relaxed mb-10 max-w-md">
             Handcrafted by India's finest weavers — each saree carries centuries of artistry, culture, and soul.
-          </p>
+          </p> */}
 
           <div className="flex flex-wrap gap-4">
             <Link to="/products" className="btn-primary">
@@ -57,7 +57,7 @@ const HeroBanner = () => {
         </div>
 
         {/* Stats */}
-        <div className="absolute bottom-12 left-4 sm:left-6 lg:left-8 flex gap-8 md:gap-12">
+        {/* <div className="absolute bottom-12 left-4 sm:left-6 lg:left-8 flex gap-8 md:gap-12">
           {[
             { value: '500+', label: 'Sarees' },
             { value: '7', label: 'Categories' },
@@ -68,7 +68,7 @@ const HeroBanner = () => {
               <div className="font-sans text-xs tracking-widest uppercase text-white/60">{stat.label}</div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Scroll indicator */}

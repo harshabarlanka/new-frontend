@@ -243,9 +243,7 @@ const AdminDashboard = () => {
       <header className="bg-white border-b border-stone-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="font-display text-xl text-saree-deep">
-              Aavaran
-            </span>
+            <span className="font-display text-xl text-saree-deep">SweG</span>
             <span className="px-2 py-0.5 bg-saree-gold/10 text-saree-gold text-xs rounded-full font-medium tracking-wider">
               ADMIN
             </span>
