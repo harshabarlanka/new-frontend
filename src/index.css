@@ -9,9 +9,13 @@
 
   body {
     @apply font-sans text-stone-800 bg-saree-ivory antialiased;
+    overflow-x: hidden; /* ✅ add here */
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-display;
   }
 }
@@ -72,7 +76,7 @@
   background: #fdf8f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C9922E;
+  background: #c9922e;
   border-radius: 3px;
 }
 
@@ -80,6 +84,6 @@
 .divider-gold {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #C9922E, transparent);
+  background: linear-gradient(90deg, transparent, #c9922e, transparent);
   margin: 0 auto;
 }
