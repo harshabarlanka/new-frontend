@@ -25,7 +25,7 @@ const CategoryCard = ({ category }) => {
   return (
     <Link
       to={`/products?category=${category.slug}`}
-      className="group relative overflow-hidden aspect-[3/4] block"
+      className="group relative overflow-hidden aspect-[3/4] block w-full"
     >
       <img
         src={image}

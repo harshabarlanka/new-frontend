@@ -5,7 +5,7 @@ const HeroBanner = () => {
     // ✅ FIXED: Use svh for mobile viewport height (avoids browser-chrome overflow)
     <section className="relative h-svh min-h-[600px] max-h-[900px] flex items-center overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 w-full overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1600&q=90"
           alt="Saree Collection Hero"
@@ -15,7 +15,7 @@ const HeroBanner = () => {
       </div>
 
       {/* Decorative vertical text */}
-      <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden lg:block">
+      <div className="absolute right-0 pr-6 top-1/2 -translate-y-1/2 hidden lg:block overflow-hidden">
         <span
           className="font-serif text-xs tracking-[0.4em] text-white/40 uppercase"
           style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
