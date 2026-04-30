@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const HeroBanner = () => {
   return (
     // ✅ FIXED: Use svh for mobile viewport height (avoids browser-chrome overflow)
-    <section className="relative h-svh min-h-[600px] max-h-[900px] flex items-center overflow-hidden">
+    <section className="relative h-svh min-h-[600px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full overflow-hidden">
         <img
@@ -25,7 +25,7 @@ const HeroBanner = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:max-w-7xl lg:mx-auto lg:px-8">
         <div className="max-w-xl animate-slide-up">
           <p className="font-serif text-sm italic text-saree-gold mb-4 tracking-wider">
             New Collection 2025
