@@ -15,15 +15,15 @@ export const useProducts = (params = {}) => {
         setLoading(true);
         setError(null);
         const { data } = await productAPI.getAll(params);
-        setProducts(data.data);
+        setProducts(data.data || []);
         setPagination({ total: data.total, page: data.page, pages: data.pages });
       } catch (err) {
         setError(err.message);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [paramsKey]);
 
@@ -40,9 +40,10 @@ export const useFeaturedProducts = () => {
       try {
         setLoading(true);
         const { data } = await productAPI.getFeatured();
-        setProducts(data.data);
+        setProducts(data.data || []);
       } catch (err) {
         setError(err.message);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -78,6 +79,7 @@ export const useProduct = (id) => {
   return { product, loading, error };
 };
 
+// Public: only categories that have products (for homepage/nav)
 export const useCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,9 +90,10 @@ export const useCategories = () => {
       try {
         setLoading(true);
         const { data } = await categoryAPI.getAll();
-        setCategories(data.data);
+        setCategories(data.data || []);
       } catch (err) {
         setError(err.message);
+        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -99,4 +102,28 @@ export const useCategories = () => {
   }, []);
 
   return { categories, loading, error };
+};
+
+// Admin: all categories regardless of product count
+export const useAdminCategories = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const refetch = async () => {
+    try {
+      setLoading(true);
+      const { data } = await categoryAPI.getAllAdmin();
+      setCategories(data.data || []);
+    } catch (err) {
+      setError(err.message);
+      setCategories([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { refetch(); }, []);
+
+  return { categories, loading, error, refetch };
 };

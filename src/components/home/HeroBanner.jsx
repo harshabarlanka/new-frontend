@@ -27,9 +27,9 @@ const HeroBanner = () => {
       {/* Content */}
       <div className="relative z-10 w-full px-4 sm:px-6 lg:max-w-7xl lg:mx-auto lg:px-8">
         <div className="max-w-xl animate-slide-up">
-          <p className="font-serif text-sm italic text-saree-gold mb-4 tracking-wider">
+          {/* <p className="font-serif text-sm italic text-saree-gold mb-4 tracking-wider">
             New Collection 2025
-          </p>
+          </p> */}
 
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl text-white leading-none mb-6">
             Drape Yourself

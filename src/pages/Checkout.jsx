@@ -107,7 +107,7 @@ const CheckoutPage = () => {
         key: keyId || import.meta.env.VITE_RAZORPAY_KEY,
         amount,
         currency,
-        name: "SweG — Premium Sarees",
+        name: "SweG — Handloom Sarees",
         description: `Order #${order._id}`,
         order_id: razorpayOrderId,
         prefill: {

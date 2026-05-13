@@ -7,7 +7,7 @@ const FeaturedSection = () => {
   const { products, loading, error } = useFeaturedProducts();
 
   return (
-    <section className="py-20 md:py-28 bg-saree-silk/30">
+    <section className="py-12 md:py-16 bg-saree-silk/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">

@@ -50,7 +50,7 @@ const RegisterPage = () => {
               SweG
             </span>
             <p className="font-serif text-xs tracking-[0.25em] italic text-saree-gold mt-1">
-              premium sarees
+              Handloom Sarees
             </p>
           </Link>
           <h1 className="mt-8 font-display text-2xl text-saree-deep">

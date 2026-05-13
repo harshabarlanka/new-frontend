@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const HeritageBanner = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-12 md:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-0 overflow-hidden">
           {/* Image */}
@@ -28,10 +28,14 @@ const HeritageBanner = () => {
               </h2>
               <div className="w-12 h-px bg-saree-gold mb-6" />
               <p className="font-sans text-sm leading-loose text-stone-600 mb-4">
-                We work directly with weaving families across seven states, ensuring fair wages, authentic techniques, and that each saree carries the stories of the hands that made it.
+                We work directly with weaving families across seven states,
+                ensuring fair wages, authentic techniques, and that each saree
+                carries the stories of the hands that made it.
               </p>
               <p className="font-sans text-sm leading-loose text-stone-600 mb-8">
-                From the silk looms of Kanchipuram to the cotton fields of Chanderi — we source only the finest, most authentic handlooms India has to offer.
+                From the silk looms of Kanchipuram to the cotton fields of
+                Chanderi — we source only the finest, most authentic handlooms
+                India has to offer.
               </p>
               <Link to="/products" className="btn-secondary">
                 Discover Our Story

@@ -2,10 +2,8 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  timeout: 15000,
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Restore token from localStorage on module load
@@ -22,6 +20,16 @@ api.interceptors.response.use(
   }
 );
 
+export const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    localStorage.setItem('saree_token', token);
+  } else {
+    delete api.defaults.headers.common['Authorization'];
+    localStorage.removeItem('saree_token');
+  }
+};
+
 export const productAPI = {
   getAll: (params = {}) => api.get('/products', { params }),
   getById: (id) => api.get(`/products/${id}`),
@@ -32,8 +40,17 @@ export const productAPI = {
 };
 
 export const categoryAPI = {
+  // Public: returns only categories with products
   getAll: () => api.get('/categories'),
+  // Admin: returns all categories regardless of products
+  getAllAdmin: () => api.get('/categories?all=true'),
   getBySlug: (slug) => api.get(`/categories/${slug}`),
+  // Auto-create or return existing by name
+  findOrCreate: (name) => api.post('/categories/find-or-create', { name }),
+  create: (data) => api.post('/categories', data),
+  // Update category fields (name, description, image, origin, isActive)
+  update: (id, data) => api.put(`/categories/${id}`, data),
+  delete: (id) => api.delete(`/categories/${id}`),
 };
 
 export const authAPI = {
@@ -46,6 +63,19 @@ export const uploadAPI = {
   uploadImages: (formData) =>
     api.post('/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
+      // Images can take a while to upload + process on Cloudinary.
+      // Override the default 15 s timeout with 3 minutes.
+      timeout: 180_000,
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log(`Upload progress: ${percent}%`);
+      },
+    }),
+  // Dedicated category image upload — stored in saree-store/categories on Cloudinary
+  uploadCategoryImage: (formData) =>
+    api.post('/upload/category', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      timeout: 180_000,
     }),
 };
 
