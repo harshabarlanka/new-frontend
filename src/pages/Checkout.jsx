@@ -328,7 +328,10 @@ const CheckoutPage = () => {
                       Processing...
                     </span>
                   ) : (
-                    `Pay ${formatPrice(cart.totalAmount)} with Razorpay`
+                    (() => {
+                      const shippingCost = cart.totalAmount >= 999 ? 0 : 99;
+                      return `Pay ${formatPrice(cart.totalAmount + shippingCost)} with Razorpay`;
+                    })()
                   )}
                 </button>
               </form>
@@ -370,13 +373,49 @@ const CheckoutPage = () => {
                   );
                 })}
               </div>
-              <div className="border-t border-stone-100 pt-4 flex justify-between font-display text-lg text-saree-deep">
-                <span>Total</span>
-                <span>{formatPrice(cart.totalAmount)}</span>
-              </div>
-              <p className="font-sans text-xs text-stone-400 text-center mt-3">
-                Free shipping · Test mode
-              </p>
+              {(() => {
+                const FREE_THRESHOLD = 999;
+                const SHIP_CHARGE = 99;
+                const subtotal = cart.totalAmount;
+                const shippingCost =
+                  subtotal >= FREE_THRESHOLD ? 0 : SHIP_CHARGE;
+                const orderTotal = subtotal + shippingCost;
+                return (
+                  <>
+                    <div className="space-y-2 font-sans text-sm mb-4">
+                      <div className="flex justify-between text-stone-500">
+                        <span>Subtotal</span>
+                        <span>{formatPrice(subtotal)}</span>
+                      </div>
+                      <div className="flex justify-between text-stone-500">
+                        <span>Shipping</span>
+                        {shippingCost === 0 ? (
+                          <span className="text-green-600 font-medium">
+                            Free
+                          </span>
+                        ) : (
+                          <span>{formatPrice(shippingCost)}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="border-t border-stone-100 pt-4 flex justify-between font-display text-lg text-saree-deep">
+                      <span>Total</span>
+                      <span>{formatPrice(orderTotal)}</span>
+                    </div>
+                    {shippingCost > 0 && (
+                      <p className="font-sans text-xs text-amber-600 text-center mt-3">
+                        Add {formatPrice(FREE_THRESHOLD - subtotal)} more for
+                        free shipping
+                      </p>
+                    )}
+                    {shippingCost === 0 && (
+                      <p className="font-sans text-xs text-green-600 text-center mt-3">
+                        ✓ Free shipping applied
+                      </p>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>
