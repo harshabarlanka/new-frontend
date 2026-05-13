@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { formatPrice, getDiscountPercent } from "../../utils/helpers";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
 
 const StarRating = ({ rating }) => (
   <div className="flex items-center gap-0.5">
@@ -21,12 +23,41 @@ const StarRating = ({ rating }) => (
 
 const ProductCard = ({ product }) => {
   const [wishlisted, setWishlisted] = useState(false);
+  const [addState, setAddState] = useState("idle"); // idle | loading | added | error
+
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const discount = getDiscountPercent(product.price, product.comparePrice);
-
   const images = product.images || [];
   const primary = images[0];
   const secondary = images[1] || images[0];
+
+  const handleQuickAdd = async (e) => {
+    e.preventDefault();
+
+    // Redirect to login if not authenticated
+    if (!user) {
+      navigate("/login", {
+        state: { from: `/products/${product.slug || product._id}` },
+      });
+      return;
+    }
+
+    if (addState === "loading" || addState === "added") return;
+
+    setAddState("loading");
+    try {
+      await addToCart(product._id, 1);
+      setAddState("added");
+      // Reset back to idle after 2 s
+      setTimeout(() => setAddState("idle"), 2000);
+    } catch {
+      setAddState("error");
+      setTimeout(() => setAddState("idle"), 2000);
+    }
+  };
 
   return (
     <div className="group h-full flex flex-col">
@@ -34,14 +65,11 @@ const ProductCard = ({ product }) => {
       <div className="relative overflow-hidden aspect-[3/4] bg-stone-100">
         {/* Clickable Image Area */}
         <Link to={`/products/${product.slug || product._id}`}>
-          {/* Primary Image */}
           <img
             src={primary}
             alt={product.name}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
-
-          {/* Secondary Image (hover) */}
           <img
             src={secondary}
             alt={product.name}
@@ -58,9 +86,7 @@ const ProductCard = ({ product }) => {
           className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-full p-2 shadow hover:scale-110 transition"
         >
           <svg
-            className={`w-4 h-4 ${
-              wishlisted ? "text-red-500 fill-red-500" : "text-stone-600"
-            }`}
+            className={`w-4 h-4 ${wishlisted ? "text-red-500 fill-red-500" : "text-stone-600"}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -83,29 +109,41 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Quick Add */}
+        {/* Quick Add — slides up on hover */}
         <div className="absolute bottom-0 left-0 right-0 p-3 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition duration-300">
-          <button className="w-full text-xs font-medium tracking-wide bg-saree-deep text-white py-2">
-            QUICK ADD
+          <button
+            onClick={handleQuickAdd}
+            disabled={addState === "loading" || addState === "added"}
+            className={`w-full text-xs font-medium tracking-wide py-2 transition-colors duration-200 ${
+              addState === "added"
+                ? "bg-emerald-600 text-white"
+                : addState === "error"
+                  ? "bg-red-600 text-white"
+                  : addState === "loading"
+                    ? "bg-saree-deep/70 text-white cursor-wait"
+                    : "bg-saree-deep text-white hover:bg-saree-burgundy"
+            }`}
+          >
+            {addState === "loading" && "ADDING…"}
+            {addState === "added" && "✓ ADDED TO CART"}
+            {addState === "error" && "FAILED — RETRY"}
+            {addState === "idle" && "QUICK ADD"}
           </button>
         </div>
       </div>
 
       {/* INFO */}
       <div className="pt-3 pb-2 flex flex-col flex-1">
-        {/* Category */}
         {product.category?.name && (
           <p className="text-xs uppercase tracking-widest text-saree-gold mb-1">
             {product.category.name}
           </p>
         )}
 
-        {/* Title */}
         <h3 className="text-sm font-medium text-saree-deep line-clamp-2 min-h-[2.8rem]">
           {product.name}
         </h3>
 
-        {/* Price */}
         <div className="mt-2 flex items-center gap-2">
           <span className="font-semibold text-saree-burgundy">
             {formatPrice(product.price)}
@@ -117,7 +155,6 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {/* Reviews */}
         <div className="mt-1 h-4 flex items-center">
           {product.numReviews > 0 && (
             <div className="flex items-center gap-1">
